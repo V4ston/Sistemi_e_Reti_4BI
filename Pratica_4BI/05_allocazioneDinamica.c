@@ -28,8 +28,8 @@ int main (void)
     int numElem = 10;
     int *p;
 
-    // malloc = malloc(nuByte)
-    p = (int*)malloc(sizeof(int) * numElem);
+    // malloc = malloc(nuByte) (Memory Allocation)
+    p = (int*)malloc(sizeof(int) * numElem); 
     stampaVett(p, numElem);
 
     /* calloc = calloc (numero di celle per tipo, dimensione singolo elemento/tipo) */
@@ -68,22 +68,41 @@ p = (int*)realloc(p, 5*sizeof(int))
 
 free(p)
 
-quando creiamo il nostro vettore, dobbiamo calcolare se lo spazio in memoria sia sufficiente
-malloc() è una funzione, dove il parametro passato è la lunghezza del vettore
+malloc() è una funzione, quando creiamo il nostro vettore, 
+dobbiamo calcolare se lo spazio in memoria sia sufficiente
+
+dove l'unico parametro passato è il numero di elementi del vettore moltiplicata per la lunghezza di ogni cella
 per sapere meglio quanto occupa il vettore possiamo usare il size, direttamente della funzione
 se abbiamo un int (star) probabilmente non andra a buon fine, quindi usiamo un cast di int
 la malloc mantiene il valore "sporco"
+restituira un null se non abbiamo memoria a disposizione
 
-la calloc() è una funzione, che pero presenta 2 parametri, il primo è la lunghezza della varibile
+//
+
+la calloc() è una funzione, , 
+il primo è il numero di elementi
+la seconda è la lunghezza della varibile
+
 la calloc tiene conto delle 4 posizione e il valore allocato sara uguale a 0
 
-la realloc() ha lo scopo di riallocare memoria, il primo parametro è l'indirizzo della prima cella
-il secondo parametro è la nuova dimensione
-non necessita un  forzato, restituisce sempre il primo indirizzo passato
+//
+
+la realloc() ha lo scopo di riallocare memoria, una sorta di resize, 
 se voglio modificare la memoria il primo indirizzo non viene cancellato
+
+il primo parametro è l'indirizzo della prima cella
+il secondo parametro è la nuova dimensione
+
+non necessita un  forzato, restituisce sempre il primo indirizzo passato
+se non c'è più spazio o è ridotta rispetto a quella necessaria nella posizione richiesta
+vengono cercate un numero di celle necessarie per allocarlo
+e cambierà l'indirizzo della prima cella con un nuovo valore
+
+//
 
 free() richiede un solo parametro, la variabile viene riallocata, non è più di suo possesso
 nasce perchè un volta era importante salvare memoria
 in c# non abbiamo il garbage collector, più moderno, più "versatile"
 in c si sceglie per la rapidità
+
 */
