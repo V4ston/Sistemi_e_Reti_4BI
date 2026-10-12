@@ -12,6 +12,8 @@
 void stampaVett(int *v, int *dim);
 void caricaVett(int *v, int *dim);
 void caricaVettPalind(int *v, int *dim);
+int ePalindromo(int *v, int *dim);
+
 // void caricaVett(int *v, dim) perche devo ancora dichiararlo
 
 int main (void) {
@@ -31,6 +33,12 @@ int main (void) {
                          // secondo parametro passo l'indirizzo
     caricaVettPalind(pV, dim);
     stampaVett(pV, dim);
+
+    if (ePalindromo(pV, dim) == TRUE) {
+        printf("\nIl vettore E' palindromo.\n");
+    } else {
+        printf("\nIl vettore NON E' palindromo.\n");
+    }
 
     return 0;
 }
@@ -57,4 +65,26 @@ void caricaVettPalind(int *v, int *dim) {
     for (*i = 0; *i < *dim; (*i)++) {
         *(v + *i) = 0;
     }
+}
+
+int ePalindromo(int *v, int *dim) {
+
+    int *inizio = (int*)malloc(sizeof(int));
+    int *fine = (int*)malloc(sizeof(int));
+    int *risultato = (int*)malloc(sizeof(int));
+
+    *inizio = 0;
+    *fine = *dim - 1;
+    *risultato = TRUE;
+
+    while (*inizio < *fine && *risultato == TRUE) {
+        if (*(v + *inizio) != *(v + *fine)) {
+            *risultato = FALSE;
+        }
+        (*inizio)++;
+        (*fine)--;
+    }
+
+    int res = *risultato;
+    return res;
 }
