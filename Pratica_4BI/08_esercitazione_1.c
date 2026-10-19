@@ -8,12 +8,19 @@
 void visualizzaMenu(void);
 int verificaPalindroma(char str[]);
 void concatenaStringhe(char* str1, char* str2);
+void invertiStringa(char* inizio);
+void generaStringaCasuale(char* str, int* dim, char min, char max);
+void generaStringaCasuale(char* str, int* dim);
 
 int main (void) {
 
     int* scelta;
     char* str; // ese1
+    char* str1; 
+    char* str2; // ese6
+    char* dimStr; // ese 7 
 
+    srand(time(NULL));
     scelta = (int*) malloc(sizeof(int));
 
     do {
@@ -41,7 +48,17 @@ int main (void) {
                 break;
 
             case 2:
+                str = (char*)malloc(sizeof(char) * MAX); // in questo modo ho dichiarato un vettore di 100 elementi che occupano lo spazio di 100 celle in memoria 
+                printf("Inserisci stringa: ");
+                gets(str);
+                str = realloc(str, sizeof(char) * (strlen(str)) + 1); // rialloco(resize) per ottimizzare lo spazio in memoria, non free degli altri elementi, + il tappo \ 0
+                /* printf("Stringa inserita: %s\n", str);
+                printf("Dimensione: %d\n", strlen(str)); */
+                invertiStringa(str);
+                printf("\nLa stringa invertita e': %s\n", str);
+                free(str);
                 break;
+
             case 3:
                 break;
             case 4:
@@ -54,16 +71,35 @@ int main (void) {
                 str2 = (char*) malloc(sizeof(char) * MAX);
 
                 if (str1 != NULL && str2 != NULL) {
+
                     printf("Stringa 1: ");
                     gets(str1);
+                    str1 = realloc(str1, sizeof(char) * (strlen(str1) + strlen(str2)) + 1); // diamo a str1 gia la lunghezza finale
+
                     printf("Stringa 2: ");
                     gets(str2);
-                    str1 = realloc(str1, sizeof(char) * (strlen(str1)) + 1);
                     str2 = realloc(str2, sizeof(char) * (strlen(str2)) + 1);
+
                     concatenaStringhe(str1, str2);
                 }
+
+                printf("\nLa stringa concatenata e': %s\n", str1);
+
                 free(str1);
                 free(str2);
+                break;
+
+            case 7:
+                dimStr = (int*) malloc(sizeof(int));
+                printf = ("Inserisci dimensione stringa > ");
+                scanf("%d", dimStr);
+                str = (char*) malloc(sizeof(char) * (*dimStr) + 1);
+                *(str + dimStr) = '\0';
+                generaStringaCasuale(str, dimStr, 97, 122);
+                printf("Stringa finale: %s\n", str);
+                convertiInMaiuscola(str, dimStr);
+                printf("Stringa maiuscola: %s\n", str);
+                free(dimStr);
                 break;
                 
             case 0:
@@ -73,7 +109,7 @@ int main (void) {
                 printf("\nOpzione non Disponibile!\n");
                 break;
         }
-
+        getchar();
     } while (*scelta != 0);
     free(scelta);
 
@@ -89,12 +125,11 @@ void visualizzaMenu() {
     printf("4. Cerca un valore in un vettore\n");
     printf("5. Calcola minimo, massimo e media di un vettore\n");
     printf("6. Concatena due stringhe\n");
+    printf("7. Caricare stringa casuale (a-z) e trasforma in maiuscolo il contenuto\n"); // ascii
     printf("0. ESCI\n");
 }
 
 int verificaPalindroma(char* str) {
-    // a, n, n, a
-    // l, u, c, a
 
     char* inizio;
     char* fine;
@@ -111,9 +146,49 @@ int verificaPalindroma(char* str) {
     return 0;
 }
 
+void invertiStringa (char *inizio) {
+
+    char *fine = inizio + (strlen(inizio) - 1);
+    char *aus = (char*) malloc(sizeof(char));
+    
+    while ((inizio < fine) && (*inizio == *fine)) {
+        *aus = *inizio;
+        *inizio = *fine;
+        *fine = *aus;
+        
+        inizio++; 
+        fine--;
+    }
+}
+
 void concatenaStringhe(char* str1, char* str2) {
     
-    str1 = realloc(str1, sizeof(char) * (strlen(str1) + strlen(str2) + 1));
+    char *inizio = str1 + strlen(str1);
+    for (; *str2 != '\0'; str2 ++, inizio ++) // la virgola serve a incrementare 2 variabili allo stesso tempo
+        *inizio = *str2;
+    *inizio = '\0';
+}
+
+void generaStringaCasuale(char* str, int* dim, char min, char max){
+
+    int *i;
+    i = (int*) malloc(sizeof(int));
+
+    for (*i = 0; *i < *dimStr; (*i)++) {
+        *(str + *i) = ((rand() % (max - min + 1)) + min);
+    }
+}
+
+void generaStringaCasuale(char* str, int* dim){
+
+    int *i;
+    i = (int*) malloc(sizeof(int));
+
+    for (*i = 0; *i < *dimStr; (*i)++) {
+        // if (*str >= 'a' && *str <= 'z') // serve per controllare se fa parte dell'alfabeto
+        // *(str + *i) = (*(str + *i)) - (32);
+        *(str + *i) = (*(str + *i)) - ('a' - 'A'); // per trovare il 32 di differenza dell'ascii
+    }
 }
 
 /* 
