@@ -109,7 +109,7 @@ int main (void) {
                 printf("\nOpzione non Disponibile!\n");
                 break;
         }
-        getchar();
+        getchar(); // sospende il programma finche non riceve un input
     } while (*scelta != 0);
     free(scelta);
 
